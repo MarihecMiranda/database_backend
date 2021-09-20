@@ -10,5 +10,6 @@ urlpatterns = [
     path('solicitar_cita/12/32/27', form2SC, name = 'Form2SC'),
     path('ver_cita/', seeQuote, name='SeeQuote'),
     path('visualizar/', visualize, name='Visualize'),
+    path('reporte/', reportPDF.as_view(), name="report"),
 ]
 

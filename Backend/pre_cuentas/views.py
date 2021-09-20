@@ -5,6 +5,11 @@ from .forms import *
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login
+"""from django.db.models import Request;"""
+
+from django.views.generic import View
+from django.template.loader import get_template
+from .utils import render_to_pdf
   
 def client_view(request):
     context ={}
@@ -73,7 +78,26 @@ def form2SC(request):
     return render(request, 'components/Form2SC.html')
 
 def seeQuote(request):
-    return render(request, 'components/SeeQuote.html')
+    client = request.user.client
+
+    consultQuote = Request.objects.select_related('office_code').filter(client_document_id = client)
+   
+    return render(request, 'components/SeeQuote.html',{'consultQuote' : consultQuote} )
 
 def visualize(request):
-    return render(request, 'components/Visualize.html')
+    client = request.user.client
+
+    consultVoucher = Request.objects.select_related('client_document_id', 'office_code').filter(client_document_id = client)
+
+    return render(request, 'components/Visualize.html', {'consultVoucher' : consultVoucher} )
+
+class reportPDF(View):
+    def get(self, request, *args, **kwargs):
+        template = get_template('reportPDF.html')
+        client = request.user.client
+
+        consultVoucher = Request.objects.select_related('client_document_id', 'office_code').filter(client_document_id = client)
+
+        html = template.render({'consultVoucher' : consultVoucher})
+        pdf = render_to_pdf('reportPDF.html', {'consultVoucher' : consultVoucher})
+        return HttpResponse(pdf, content_type='application/pdf')

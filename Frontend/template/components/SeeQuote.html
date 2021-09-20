@@ -13,15 +13,27 @@
                     </thead>
                     <tbody>
                         <tr style="border: solid 1px #21516e;">
-                            <th scope="row">G5D46S4</th>
-                            <td>12/09/2021</td>
-                            <td>Los Leones-Barquisimeto</td>
+                            {%if consultQuote%}    
+                                {%for cq in consultQuote%}
+                                    <th scope="row">{{cq.code}}</th>
+                                    <td>{{cq.date_issue.day}} / {{cq.date_issue.month}} / {{cq.date_issue.year}}</td>
+                                    <td>{{cq.office_code.address}}</td>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-warning" role="alert">
+                                    ¡No tienes citas registradas!
+                                </div>
+                            {% endif %}
+
+                            
+
+                            
                         </tr>
                             </tbody>
                 </table>
                 <div class="buttons" style="display: flex; padding:100px;">
                     <a type="button" class="btn btn-outline-info" href="{% url 'Visualize' %}">Visualizar</a>
-                    <button style="margin-left: 10px" type="button" class="btn btn-outline-success">Descargar</button>
+                    <a style="margin-left: 10px" type="button" class="btn btn-outline-success" href="{% url 'report' %}">Descargar</a>
                 </div>
              </div>
 {% endblock content %}

@@ -28,7 +28,7 @@
         </nav>
     </header>
 
-    <div class="container1" style="background:blue; height:300px">
+    <div class="container1" style="height:300px">
 
         <!--Slide-->
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -49,7 +49,7 @@
 
         <!--Login-->
         <div class="formContainer">
-            <h5>Iniciar Sesión<h5>
+            <h5 style="margin: 10px">Iniciar Sesión<h5>
                 <form method="POST" action="{% url 'login' %}">
                     {% if error %}
                         <p class="alert alert-danger">{{ error }}</p>
